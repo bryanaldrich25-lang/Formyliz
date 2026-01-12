@@ -1594,7 +1594,8 @@ function startLove(){
     document.getElementById("overlay").style.display = "none";
   startTyping();
 }
- const c = setTimeout(() => {
+function startTyping() {
+  const c = setTimeout(() => {
     document.body.classList.remove("not-loaded");
 
     const titles = ('i love youu , lizzet !❤️ ').split('')
