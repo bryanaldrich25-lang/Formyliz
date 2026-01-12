@@ -7,11 +7,20 @@
 <style>
 html,body{
   margin:0;
+  padding:0;
   width:100%;
   height:100%;
   overflow:hidden;
-  background:radial-gradient(circle at top, #1b2b5f, #050b1a);
-  font-family: 'Arial', sans-serif;
+  background: radial-gradient(circle at top, #1a2b5f, #050b1f);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+#stars{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background: url('https://i.imgur.com/9aKQ5gH.png') repeat;
+  opacity:0.25;
 }
 
 #start{
@@ -21,124 +30,141 @@ html,body{
   transform:translate(-50%,-50%);
   background:#ff4f8b;
   color:white;
-  padding:16px 40px;
+  padding:16px 36px;
   border-radius:40px;
-  font-size:22px;
+  font-size:20px;
   cursor:pointer;
+  box-shadow:0 0 25px rgba(255,105,180,.6);
   z-index:10;
-  box-shadow:0 0 25px rgba(255,79,139,.6);
 }
 
 #text{
-  position:absolute;
-  top:20%;
+  position:fixed;
+  top:22%;
   width:100%;
   text-align:center;
+  font-size:32px;
   color:white;
-  font-size:36px;
   opacity:0;
-  transition:2s;
-  z-index:5;
+  text-shadow:0 0 25px pink;
+  transition:opacity 2s;
 }
 
 .heart{
-  position:absolute;
-  color:#ff5a7a;
-  font-size:22px;
+  position:fixed;
+  color:#ff6fae;
   animation: float 10s linear infinite;
+  opacity:.8;
 }
 
 @keyframes float{
-  from{transform:translateY(100vh);opacity:0;}
-  to{transform:translateY(-10vh);opacity:1;}
+  from{transform:translateY(100vh) scale(.5); opacity:0;}
+  to{transform:translateY(-20vh) scale(1); opacity:1;}
 }
 
-.tulip-area{
+.bouquet{
   position:absolute;
   bottom:-200px;
-  width:100%;
-  height:300px;
-  display:flex;
-  justify-content:center;
-  align-items:flex-end;
+  width:60px;
+  height:150px;
+  transform-origin:bottom center;
+  animation: rise 2s forwards, sway 6s ease-in-out infinite;
 }
 
-.tulip{
-  margin:0 10px;
-  opacity:0;
-  animation: rise 2s forwards, sway 3s ease-in-out infinite alternate;
+.stem{
+  position:absolute;
+  width:5px;
+  height:90px;
+  background:#2ecc71;
+  left:50%;
+  bottom:0;
+  transform:translateX(-50%);
+  border-radius:4px;
 }
 
-@keyframes rise{
-  from{transform:translateY(200px);opacity:0;}
-  to{transform:translateY(0);opacity:1;}
-}
-
-@keyframes sway{
-  from{transform:rotate(-3deg);}
-  to{transform:rotate(3deg);}
+.flower{
+  position:absolute;
+  bottom:90px;
+  left:50%;
+  transform:translateX(-50%);
 }
 
 .petal{
+  position:absolute;
+  width:28px;
+  height:38px;
+  background:linear-gradient(#ffd1e6,#ff7eb3);
+  border-radius:50% 50% 0 0;
   transform-origin:bottom center;
-  animation: bloom 3s ease forwards;
+  animation:bloom 2s ease-out forwards;
 }
 
+.p1{transform:rotate(-25deg);}
+.p2{transform:rotate(0deg);}
+.p3{transform:rotate(25deg);}
+
 @keyframes bloom{
-  from{transform:scaleY(0);}
+  from{transform:scaleY(0.1);}
   to{transform:scaleY(1);}
+}
+
+@keyframes rise{
+  from{bottom:-200px;}
+  to{bottom:60px;}
+}
+
+@keyframes sway{
+  0%,100%{transform:rotate(-2deg);}
+  50%{transform:rotate(2deg);}
 }
 </style>
 </head>
-
 <body>
 
-<div id="start" onclick="startLove()">❤️ Tekan Love</div>
+<div id="stars"></div>
+
 <div id="text">Lizzet ❤️<br>I love you!</div>
+<div id="start" onclick="startLove()">❤️ Tekan Love</div>
 
 <audio id="music" src="Music.mp3" loop></audio>
 
-<div class="tulip-area" id="tulips"></div>
-
 <script>
 function startLove(){
-  document.getElementById("music").play();
   document.getElementById("start").style.display="none";
+  document.getElementById("music").play();
   document.getElementById("text").style.opacity=1;
 
-  for(let i=0;i<40;i++){
-    setTimeout(createHeart, i*300);
-  }
+  // hearts
+  setInterval(()=>{
+    let h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="❤️";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=(12+Math.random()*20)+"px";
+    h.style.animationDuration=(6+Math.random()*6)+"s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),12000);
+  },500);
 
-  for(let i=0;i<8;i++){
-    setTimeout(()=>createTulip(i), i*700);
-  }
-}
-
-function createHeart(){
-  const h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="❤️";
-  h.style.left=Math.random()*100+"vw";
-  h.style.fontSize=12+Math.random()*20+"px";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),10000);
-}
-
-function createTulip(i){
-  const t=document.createElement("div");
-  t.className="tulip";
-  t.style.animationDelay=i*0.4+"s";
-
-  t.innerHTML=`
-  <svg width="80" height="180" viewBox="0 0 80 180">
-    <rect x="38" y="70" width="4" height="90" fill="#2ecc71" rx="2"/>
-    <ellipse class="petal" cx="40" cy="60" rx="22" ry="30" fill="#ffc0d6"/>
-    <ellipse class="petal" cx="30" cy="55" rx="18" ry="28" fill="#ffb1cc"/>
-    <ellipse class="petal" cx="50" cy="55" rx="18" ry="28" fill="#ffb1cc"/>
-  </svg>`;
-  
-  document.getElementById("tulips").appendChild(t);
+  // bouquet positions (setengah lingkaran)
+  const angles = [-35,-25,-15,-5,5,15,25,35];
+  angles.forEach((angle,i)=>{
+    setTimeout(()=>{
+      let b=document.createElement("div");
+      b.className="bouquet";
+      b.style.left="50%";
+      b.style.transform="translateX(-50%) rotate("+angle+"deg)";
+      b.innerHTML=`
+        <div class="flower">
+          <div class="petal p1"></div>
+          <div class="petal p2"></div>
+          <div class="petal p3"></div>
+        </div>
+        <div class="stem"></div>
+      `;
+      document.body.appendChild(b);
+    }, i*700);
+  });
 }
 </script>
 
