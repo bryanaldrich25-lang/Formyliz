@@ -7,80 +7,58 @@
 
 <style>
 html,body{
-  margin:0;
-  padding:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  font-family:Arial;
+  margin:0; padding:0; width:100%; height:100%;
+  overflow:hidden; font-family:Arial;
   background:radial-gradient(circle at top,#0b1a3a,#02050f 80%);
 }
 
-/* Bintang */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:
-    radial-gradient(2px 2px at 15% 25%, #fff, transparent),
-    radial-gradient(2px 2px at 70% 15%, #fff, transparent),
-    radial-gradient(1px 1px at 40% 70%, #fff, transparent),
-    radial-gradient(1.5px 1.5px at 85% 60%, #fff, transparent),
-    radial-gradient(1px 1px at 10% 80%, #fff, transparent);
-  animation: twinkle 4s infinite alternate;
-  pointer-events:none;
-}
-
-@keyframes twinkle{from{opacity:.4}to{opacity:1}}
-
+/* Teks (muncul belakangan) */
 #text{
-  position:absolute;
-  top:18%;
-  width:100%;
-  text-align:center;
-  font-size:32px;
-  color:white;
-  text-shadow:0 0 20px pink;
-  z-index:5;
+  position:absolute; top:18%; width:100%;
+  text-align:center; font-size:32px;
+  color:white; text-shadow:0 0 20px pink;
+  display:none; z-index:5;
 }
 
+/* Tombol */
 #start{
-  position:absolute;
-  top:45%;
-  left:50%;
+  position:absolute; top:45%; left:50%;
   transform:translateX(-50%);
-  background:#ff4d8d;
-  color:white;
-  padding:14px 30px;
-  border-radius:30px;
-  font-size:20px;
-  cursor:pointer;
-  z-index:6;
-  box-shadow:0 0 20px #ff4d8d;
+  background:#ff4d8d; color:white;
+  padding:14px 30px; border-radius:30px;
+  font-size:20px; cursor:pointer;
+  z-index:6; box-shadow:0 0 20px #ff4d8d;
 }
 
+/* Hati */
 .heart{
-  position:absolute;
-  bottom:-40px;
-  font-size:24px;
+  position:absolute; bottom:-40px; font-size:24px;
   animation:float 8s linear forwards;
 }
 @keyframes float{to{transform:translateY(-120vh);opacity:0}}
 
-.sway{
-  animation:sway 4s ease-in-out infinite alternate;
-  transform-origin:bottom center;
+/* Tulip naik */
+.tulip{
+  transform:translateY(220px);
+  opacity:0;
 }
-@keyframes sway{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+.tulip.rise{
+  animation: rise 1.5s ease-out forwards;
+}
+@keyframes rise{
+  to{transform:translateY(0); opacity:1;}
+}
 
+/* Mekar */
 .petal{
   transform-origin:bottom center;
-  animation:bloom 6s ease-in-out infinite;
+}
+.bloom .petal{
+  animation:bloom 2.5s ease-in-out forwards;
 }
 @keyframes bloom{
-  0%{transform:scaleY(.3)}
-  40%{transform:scaleY(1) rotate(12deg)}
-  100%{transform:scaleY(1) rotate(12deg)}
+  from{transform:scaleY(0.3);}
+  to{transform:scaleY(1) rotate(12deg);}
 }
 </style>
 </head>
@@ -90,50 +68,28 @@ body::before{
 <div id="text">Lizzet ❤️<br>I love you!</div>
 <div id="start" onclick="startLove()">❤️ Tekan Love</div>
 
-<!-- Tulip mekar dari kanan & kiri ke tengah -->
-<svg width="100%" height="100%" viewBox="0 0 400 800"
-     style="position:fixed; bottom:0; left:0; z-index:1;">
+<!-- 8 Tulip -->
+<svg id="tulipGroup" width="100%" height="100%" viewBox="0 0 400 800"
+     style="position:fixed; bottom:0; left:0; display:none;">
+
+  <defs>
+    <g id="oneTulip">
+      <rect x="-3" y="40" width="6" height="120" fill="#2ecc71"/>
+      <ellipse class="petal" cx="-15" cy="0" rx="15" ry="30" fill="#ff8fbf"/>
+      <ellipse class="petal" cx="0" cy="-5" rx="18" ry="35" fill="#ff9acb"/>
+      <ellipse class="petal" cx="15" cy="0" rx="15" ry="30" fill="#ff8fbf"/>
+    </g>
+  </defs>
+
   <g>
-
-    <!-- Kiri & Kanan paling luar -->
-    <g class="sway" style="animation-delay:0s" transform="translate(20,650)">
-      <ellipse class="petal" cx="0" cy="0" rx="14" ry="30" fill="#ff9acb"/>
-      <rect x="-2" y="25" width="4" height="100" fill="#2ecc71"/>
-    </g>
-    <g class="sway" style="animation-delay:0s" transform="translate(380,650)">
-      <ellipse class="petal" cx="0" cy="0" rx="14" ry="30" fill="#ff9acb"/>
-      <rect x="-2" y="25" width="4" height="100" fill="#2ecc71"/>
-    </g>
-
-    <!-- Mendekat ke tengah -->
-    <g class="sway" style="animation-delay:1.5s" transform="translate(80,650)">
-      <ellipse class="petal" cx="0" cy="0" rx="14" ry="30" fill="#ff9acb"/>
-      <rect x="-2" y="25" width="4" height="100" fill="#2ecc71"/>
-    </g>
-    <g class="sway" style="animation-delay:1.5s" transform="translate(320,650)">
-      <ellipse class="petal" cx="0" cy="0" rx="14" ry="30" fill="#ff9acb"/>
-      <rect x="-2" y="25" width="4" height="100" fill="#2ecc71"/>
-    </g>
-
-    <g class="sway" style="animation-delay:3s" transform="translate(140,650)">
-      <ellipse class="petal" cx="0" cy="0" rx="14" ry="30" fill="#ff9acb"/>
-      <rect x="-2" y="25" width="4" height="100" fill="#2ecc71"/>
-    </g>
-    <g class="sway" style="animation-delay:3s" transform="translate(260,650)">
-      <ellipse class="petal" cx="0" cy="0" rx="14" ry="30" fill="#ff9acb"/>
-      <rect x="-2" y="25" width="4" height="100" fill="#2ecc71"/>
-    </g>
-
-    <!-- Tengah (mekar terakhir) -->
-    <g class="sway" style="animation-delay:4.5s" transform="translate(190,650)">
-      <ellipse class="petal" cx="0" cy="0" rx="16" ry="34" fill="#ff9acb"/>
-      <rect x="-2" y="25" width="4" height="100" fill="#2ecc71"/>
-    </g>
-    <g class="sway" style="animation-delay:4.5s" transform="translate(210,650)">
-      <ellipse class="petal" cx="0" cy="0" rx="16" ry="34" fill="#ff9acb"/>
-      <rect x="-2" y="25" width="4" height="100" fill="#2ecc71"/>
-    </g>
-
+    <g class="tulip" transform="translate(30,650)"><use href="#oneTulip"/></g>
+    <g class="tulip" transform="translate(80,650)"><use href="#oneTulip"/></g>
+    <g class="tulip" transform="translate(130,650)"><use href="#oneTulip"/></g>
+    <g class="tulip" transform="translate(180,650)"><use href="#oneTulip"/></g>
+    <g class="tulip" transform="translate(230,650)"><use href="#oneTulip"/></g>
+    <g class="tulip" transform="translate(280,650)"><use href="#oneTulip"/></g>
+    <g class="tulip" transform="translate(330,650)"><use href="#oneTulip"/></g>
+    <g class="tulip" transform="translate(380,650)"><use href="#oneTulip"/></g>
   </g>
 </svg>
 
@@ -143,9 +99,29 @@ body::before{
 
 <script>
 function startLove(){
-  document.getElementById("music").play();
-  document.getElementById("start").style.display="none";
+  const music = document.getElementById("music");
+  const start = document.getElementById("start");
+  const group = document.getElementById("tulipGroup");
+  const text  = document.getElementById("text");
+  const tulips = document.querySelectorAll(".tulip");
 
+  music.play();
+  start.style.display="none";
+  group.style.display="block";
+
+  // Naik satu per satu
+  tulips.forEach((t, i)=>{
+    setTimeout(()=>{
+      t.classList.add("rise");
+      // Setelah naik, mekar
+      setTimeout(()=> t.classList.add("bloom"), 1500);
+    }, i * 500); // jeda antar tulip
+  });
+
+  // Teks muncul setelah semua mekar
+  setTimeout(()=>{ text.style.display="block"; }, 1500 + tulips.length*500 + 800);
+
+  // Hati beterbangan
   setInterval(()=>{
     const h=document.createElement("div");
     h.className="heart";
