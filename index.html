@@ -6,8 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 html,body{
-  margin:0; padding:0;
-  width:100%; height:100%;
+  margin:0;padding:0;width:100%;height:100%;
   overflow:hidden;
   background:radial-gradient(circle at top,#0b1a3a,#02050f 80%);
   font-family:Arial;
@@ -16,16 +15,16 @@ html,body{
 /* Tombol */
 #start{
   position:absolute;
-  top:45%; left:50%;
+  top:45%;left:50%;
   transform:translate(-50%,-50%);
-  background:#ff4d8d;
+  background:#ff6fa5;
   color:white;
-  padding:14px 30px;
-  border-radius:30px;
+  padding:15px 35px;
+  border-radius:40px;
   font-size:20px;
   cursor:pointer;
+  box-shadow:0 0 20px pink;
   z-index:10;
-  box-shadow:0 0 20px #ff4d8d;
 }
 
 /* Teks */
@@ -37,11 +36,15 @@ html,body{
   font-size:32px;
   color:white;
   text-shadow:0 0 20px pink;
-  display:none;
-  z-index:9;
+  opacity:0;
+  animation:fade 3s ease forwards;
+  animation-delay:10s;
+}
+@keyframes fade{
+  to{opacity:1;}
 }
 
-/* Hati */
+/* Love terbang */
 .heart{
   position:absolute;
   bottom:-40px;
@@ -56,15 +59,16 @@ html,body{
 .tulip{
   position:absolute;
   bottom:-200px;
-  animation:rise 2s ease-out forwards;
+  animation:rise 2s ease forwards;
 }
 @keyframes rise{
   to{bottom:120px;}
 }
 
+/* Kelopak mekar */
 .petal{
   transform-origin:bottom center;
-  animation:bloom 3s ease-in-out forwards;
+  animation:bloom 3s ease forwards;
   animation-delay:2s;
 }
 @keyframes bloom{
@@ -76,8 +80,8 @@ html,body{
 
 <body>
 
-<div id="text">Lizzet ❤️<br>I love you!</div>
 <div id="start" onclick="startLove()">❤️ Tekan Love</div>
+<div id="text">Lizzet ❤️<br>I love you!</div>
 
 <audio id="music" loop>
   <source src="Music.mp3" type="audio/mpeg">
@@ -92,11 +96,11 @@ function createTulip(x,delay){
   t.style.left=x+"%";
   t.style.animationDelay=delay+"s";
   t.innerHTML=`
-  <svg width="60" height="160" viewBox="0 0 60 160">
-    <rect x="28" y="60" width="4" height="80" fill="#2ecc71"/>
-    <ellipse class="petal" cx="20" cy="40" rx="12" ry="28" fill="#ff8fbf"/>
-    <ellipse class="petal" cx="30" cy="35" rx="15" ry="35" fill="#ff9acb"/>
-    <ellipse class="petal" cx="40" cy="40" rx="12" ry="28" fill="#ff8fbf"/>
+  <svg width="80" height="200" viewBox="0 0 80 200">
+    <path d="M40 80 C35 120 30 150 40 180" stroke="#2ecc71" stroke-width="4" fill="none"/>
+    <ellipse class="petal" cx="28" cy="55" rx="12" ry="30" fill="#ffb6d5"/>
+    <ellipse class="petal" cx="40" cy="50" rx="16" ry="35" fill="#ffd1e8"/>
+    <ellipse class="petal" cx="52" cy="55" rx="12" ry="30" fill="#ffb6d5"/>
   </svg>`;
   document.getElementById("garden").appendChild(t);
 }
@@ -105,24 +109,22 @@ function startLove(){
   document.getElementById("music").play();
   document.getElementById("start").style.display="none";
 
-  let positions=[15,25,35,45,55,65,75,85];
+  // posisi setengah lingkaran
+  let positions=[20,30,40,47,53,60,70,80];
   positions.forEach((p,i)=>{
-    createTulip(p,i*0.6);
+    createTulip(p,i*0.8);
   });
 
-  setTimeout(()=>{
-    document.getElementById("text").style.display="block";
-  },5000);
-
+  // love terbang
   setInterval(()=>{
     const h=document.createElement("div");
     h.className="heart";
-    h.innerHTML="❤️";
+    h.innerHTML="💗";
     h.style.left=Math.random()*100+"vw";
     h.style.animationDuration=(5+Math.random()*5)+"s";
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),10000);
-  },250);
+  },300);
 }
 </script>
 
