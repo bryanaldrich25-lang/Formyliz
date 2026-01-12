@@ -10,73 +10,76 @@ body{
   margin:0;
   height:100vh;
   overflow:hidden;
-  background:radial-gradient(circle at bottom,#0b132b,#020617);
+  background:linear-gradient(#ffe6f0,#ffd1e8);
   display:flex;
   align-items:center;
   justify-content:center;
   font-family:Arial, sans-serif;
-  color:#ff9acb;
+}
+
+#start{
+  padding:16px 40px;
+  background:#ff4f9a;
+  color:white;
+  border-radius:40px;
+  font-size:22px;
+  cursor:pointer;
 }
 
 .scene{
-  position:relative;
-  width:100%;
-  height:100%;
+  display:none;
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle at bottom,#0b132b,#020617);
+  color:#ff9acb;
 }
 
 .text{
   position:absolute;
-  top:12%;
+  top:10%;
   width:100%;
   text-align:center;
   font-size:26px;
-  z-index:10;
+}
+
+.flower{
+  position:absolute;
+  bottom:8%;
+  left:50%;
+  transform:translateX(-50%);
+  width:200px;
+  filter:drop-shadow(0 0 12px #ff9acb);
 }
 
 .heart{
   position:absolute;
   color:#ff7abf;
-  opacity:0.6;
+  opacity:.6;
   animation:float 12s linear infinite;
 }
 
 @keyframes float{
-  from{transform:translateY(100vh) scale(0.5);}
+  from{transform:translateY(100vh) scale(.5);}
   to{transform:translateY(-20vh) scale(1);}
-}
-
-/* bunga */
-.flower{
-  position:absolute;
-  bottom:10%;
-  left:50%;
-  transform:translateX(-50%);
-  width:220px;
-  filter:drop-shadow(0 0 12px #ff9acb);
 }
 </style>
 </head>
 
 <body>
 
-<div class="scene" id="play">
+<div id="start">❤️ Tekan Love</div>
 
-  <div class="text">
-    Lizzet ❤️<br>
-    i love you !
-  </div>
+<div class="scene" id="scene">
+  <div class="text">Lizzet ❤️<br>i love you !</div>
 
-  <!-- Bunga SVG -->
+  <!-- bunga -->
   <svg class="flower" viewBox="0 0 200 300">
-    <g>
-      <path d="M100 280 L100 120" stroke="#2ecc71" stroke-width="6"/>
-      <ellipse cx="80" cy="140" rx="20" ry="35" fill="#2ecc71"/>
-      <ellipse cx="120" cy="150" rx="20" ry="35" fill="#2ecc71"/>
-      <circle cx="100" cy="110" r="35" fill="#ff9acb"/>
-      <circle cx="100" cy="110" r="15" fill="#fff5a5"/>
-    </g>
+    <path d="M100 280 L100 120" stroke="#2ecc71" stroke-width="6"/>
+    <ellipse cx="80" cy="140" rx="20" ry="35" fill="#2ecc71"/>
+    <ellipse cx="120" cy="150" rx="20" ry="35" fill="#2ecc71"/>
+    <circle cx="100" cy="110" r="35" fill="#ff9acb"/>
+    <circle cx="100" cy="110" r="15" fill="#fff5a5"/>
   </svg>
-
 </div>
 
 <audio id="music">
@@ -84,26 +87,26 @@ body{
 </audio>
 
 <script>
-const area = document.getElementById("play");
+const start = document.getElementById("start");
+const scene = document.getElementById("scene");
 const music = document.getElementById("music");
 
-// play music saat disentuh
-area.addEventListener("click", () => {
+start.onclick = () => {
+  start.style.display = "none";
+  scene.style.display = "block";
   music.play();
-});
 
-// hati melayang
-function spawnHeart(){
-  const h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="❤";
-  h.style.left=Math.random()*100+"vw";
-  h.style.fontSize=(20+Math.random()*30)+"px";
-  h.style.animationDuration=(8+Math.random()*6)+"s";
-  area.appendChild(h);
-  setTimeout(()=>h.remove(),15000);
-}
-setInterval(spawnHeart,500);
+  setInterval(()=>{
+    const h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="❤";
+    h.style.left=Math.random()*100+"vw";
+    h.style.fontSize=(20+Math.random()*30)+"px";
+    h.style.animationDuration=(8+Math.random()*6)+"s";
+    scene.appendChild(h);
+    setTimeout(()=>h.remove(),15000);
+  },500);
+};
 </script>
 
 </body>
