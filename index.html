@@ -91,14 +91,15 @@ body {
     linear-gradient(90deg, rgb(0, 255, 250), rgb(240, 240, 240));
 }
 
-..flowers {
-  position: absolute;
-  bottom: 0;
+.flowers{
+  position: fixed;
+  top: 60%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   display: flex;
   justify-content: center;
-}
+  z-index: 2;
+
 }
 
 .flower {
