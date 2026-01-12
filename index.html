@@ -12,74 +12,108 @@ html,body{
   width:100%;
   height:100%;
   overflow:hidden;
-  font-family:Arial, sans-serif;
+  font-family:Arial;
+  background:radial-gradient(circle at top, #1b2a4a, #050b1a 70%);
 }
 
-iframe{
+/* bintang */
+body::before{
+  content:"";
   position:fixed;
   inset:0;
-  width:100%;
-  height:100%;
-  border:none;
-}
-
-.overlay{
-  position:fixed;
-  inset:0;
+  background:
+    radial-gradient(2px 2px at 20% 30%, #fff, transparent),
+    radial-gradient(2px 2px at 70% 20%, #fff, transparent),
+    radial-gradient(1px 1px at 40% 80%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 80% 60%, #fff, transparent),
+    radial-gradient(1px 1px at 10% 70%, #fff, transparent);
+  animation: twinkle 4s infinite alternate;
   pointer-events:none;
 }
 
+@keyframes twinkle{
+  from{opacity:0.4;}
+  to{opacity:0.9;}
+}
+
 #text{
-  position:fixed;
-  top:30%;
+  position:absolute;
+  top:18%;
   width:100%;
   text-align:center;
   font-size:32px;
   color:white;
-  text-shadow:0 0 10px pink;
-  z-index:2;
+  text-shadow:0 0 15px pink;
+  z-index:5;
 }
 
 #start{
-  position:fixed;
-  top:50%;
+  position:absolute;
+  top:45%;
   left:50%;
-  transform:translate(-50%,-50%);
+  transform:translateX(-50%);
   background:#ff4d8d;
   color:white;
   padding:14px 30px;
   border-radius:30px;
   font-size:20px;
   cursor:pointer;
-  z-index:3;
+  z-index:6;
+  box-shadow:0 0 20px #ff4d8d;
 }
 
 .heart{
-  position:fixed;
-  bottom:-30px;
+  position:absolute;
+  bottom:-40px;
   font-size:24px;
   animation:float 8s linear forwards;
 }
 
 @keyframes float{
-  to{
-    transform:translateY(-110vh);
-    opacity:0;
-  }
+  to{ transform:translateY(-120vh); opacity:0; }
+}
+
+/* gerakan tulip */
+.sway{
+  animation: sway 4s ease-in-out infinite alternate;
+  transform-origin: bottom center;
+}
+
+@keyframes sway{
+  from{ transform: rotate(-3deg); }
+  to{ transform: rotate(3deg); }
 }
 </style>
 </head>
 
 <body>
 
-<!-- Tulip animasi -->
-<iframe src="flower.html"></iframe>
-
-<div class="overlay" id="overlay">
-  <div id="text">Lizzet ❤️<br>I love you!</div>
-</div>
-
+<div id="text">Lizzet ❤️<br>I love you!</div>
 <div id="start" onclick="startLove()">❤️ Tekan Love</div>
+
+<!-- Tulip SVG -->
+<svg width="100%" height="100%" viewBox="0 0 400 800" style="position:fixed; bottom:0;">
+  <defs>
+    <g id="tulip">
+      <rect x="-3" y="40" width="6" height="120" fill="#2ecc71"/>
+      <ellipse cx="-20" cy="90" rx="20" ry="10" fill="#2ecc71"/>
+      <ellipse cx="20" cy="90" rx="20" ry="10" fill="#2ecc71"/>
+      <circle cx="0" cy="0" r="35" fill="#ff9acb"/>
+      <circle cx="0" cy="0" r="14" fill="#fff3a0"/>
+    </g>
+  </defs>
+
+  <g transform="translate(0,0)">
+    <g class="sway" transform="translate(40,600)"><use href="#tulip"/></g>
+    <g class="sway" transform="translate(90,610)"><use href="#tulip"/></g>
+    <g class="sway" transform="translate(140,595)"><use href="#tulip"/></g>
+    <g class="sway" transform="translate(190,610)"><use href="#tulip"/></g>
+    <g class="sway" transform="translate(240,600)"><use href="#tulip"/></g>
+    <g class="sway" transform="translate(290,615)"><use href="#tulip"/></g>
+    <g class="sway" transform="translate(340,595)"><use href="#tulip"/></g>
+    <g class="sway" transform="translate(390,610)"><use href="#tulip"/></g>
+  </g>
+</svg>
 
 <audio id="music" loop>
   <source src="Music.mp3" type="audio/mpeg">
@@ -98,7 +132,7 @@ function startLove(){
     h.style.animationDuration=(5+Math.random()*5)+"s";
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),10000);
-  },300);
+  },250);
 }
 </script>
 
