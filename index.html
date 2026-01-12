@@ -3,82 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <title>Lizzet ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body {
+html,body{
   margin:0;
+  width:100%;
+  height:100%;
   overflow:hidden;
-  background:radial-gradient(circle at top, #0b1a33, #02010a);
-  font-family: 'Segoe UI', sans-serif;
+  background:radial-gradient(circle at top, #1b2b5f, #050b1a);
+  font-family: 'Arial', sans-serif;
 }
-#start {
+
+#start{
   position:fixed;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  background:#ff5b9d;
+  background:#ff4f8b;
   color:white;
-  padding:14px 30px;
-  border-radius:30px;
-  font-size:20px;
+  padding:16px 40px;
+  border-radius:40px;
+  font-size:22px;
   cursor:pointer;
   z-index:10;
+  box-shadow:0 0 25px rgba(255,79,139,.6);
 }
-#text {
-  position:fixed;
-  top:25%;
+
+#text{
+  position:absolute;
+  top:20%;
   width:100%;
   text-align:center;
   color:white;
   font-size:36px;
   opacity:0;
   transition:2s;
-  text-shadow:0 0 15px pink;
+  z-index:5;
 }
-.heart {
+
+.heart{
   position:absolute;
-  color:#ff6fa5;
-  animation:float 10s linear infinite;
+  color:#ff5a7a;
+  font-size:22px;
+  animation: float 10s linear infinite;
 }
-@keyframes float {
-  from { transform:translateY(100vh); opacity:1;}
-  to { transform:translateY(-10vh); opacity:0;}
+
+@keyframes float{
+  from{transform:translateY(100vh);opacity:0;}
+  to{transform:translateY(-10vh);opacity:1;}
 }
-.tulip {
+
+.tulip-area{
   position:absolute;
   bottom:-200px;
-  width:50px;
-  height:200px;
-  animation:rise 2s forwards;
+  width:100%;
+  height:300px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
 }
-.stem {
-  width:6px;
-  height:120px;
-  background:#2ecc71;
-  margin:0 auto;
-  border-radius:10px;
-  transform:rotate(-5deg);
+
+.tulip{
+  margin:0 10px;
+  opacity:0;
+  animation: rise 2s forwards, sway 3s ease-in-out infinite alternate;
 }
-.flower {
-  width:50px;
-  height:50px;
-  background:pink;
-  border-radius:50% 50% 40% 40%;
-  transform:scaleY(0.3);
-  animation:bloom 2s forwards 2s;
+
+@keyframes rise{
+  from{transform:translateY(200px);opacity:0;}
+  to{transform:translateY(0);opacity:1;}
 }
-@keyframes rise {
-  to { bottom:0; }
+
+@keyframes sway{
+  from{transform:rotate(-3deg);}
+  to{transform:rotate(3deg);}
 }
-@keyframes bloom {
-  to { transform:scaleY(1); }
+
+.petal{
+  transform-origin:bottom center;
+  animation: bloom 3s ease forwards;
+}
+
+@keyframes bloom{
+  from{transform:scaleY(0);}
+  to{transform:scaleY(1);}
 }
 </style>
 </head>
+
 <body>
 
 <div id="start" onclick="startLove()">❤️ Tekan Love</div>
 <div id="text">Lizzet ❤️<br>I love you!</div>
+
 <audio id="music" src="Music.mp3" loop></audio>
+
+<div class="tulip-area" id="tulips"></div>
 
 <script>
 function startLove(){
@@ -86,30 +106,39 @@ function startLove(){
   document.getElementById("start").style.display="none";
   document.getElementById("text").style.opacity=1;
 
-  // hearts
-  setInterval(()=>{
-    let h=document.createElement("div");
-    h.className="heart";
-    h.innerHTML="❤️";
-    h.style.left=Math.random()*100+"vw";
-    h.style.fontSize=(20+Math.random()*20)+"px";
-    h.style.animationDuration=(6+Math.random()*6)+"s";
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),10000);
-  },300);
-
-  // tulips
-  let center=window.innerWidth/2;
-  for(let i=0;i<8;i++){
-    setTimeout(()=>{
-      let t=document.createElement("div");
-      t.className="tulip";
-      let offset=(i-3.5)*60;
-      t.style.left=(center+offset)+"px";
-      t.innerHTML=`<div class="flower"></div><div class="stem"></div>`;
-      document.body.appendChild(t);
-    }, i*700);
+  for(let i=0;i<40;i++){
+    setTimeout(createHeart, i*300);
   }
+
+  for(let i=0;i<8;i++){
+    setTimeout(()=>createTulip(i), i*700);
+  }
+}
+
+function createHeart(){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  h.style.fontSize=12+Math.random()*20+"px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),10000);
+}
+
+function createTulip(i){
+  const t=document.createElement("div");
+  t.className="tulip";
+  t.style.animationDelay=i*0.4+"s";
+
+  t.innerHTML=`
+  <svg width="80" height="180" viewBox="0 0 80 180">
+    <rect x="38" y="70" width="4" height="90" fill="#2ecc71" rx="2"/>
+    <ellipse class="petal" cx="40" cy="60" rx="22" ry="30" fill="#ffc0d6"/>
+    <ellipse class="petal" cx="30" cy="55" rx="18" ry="28" fill="#ffb1cc"/>
+    <ellipse class="petal" cx="50" cy="55" rx="18" ry="28" fill="#ffb1cc"/>
+  </svg>`;
+  
+  document.getElementById("tulips").appendChild(t);
 }
 </script>
 
