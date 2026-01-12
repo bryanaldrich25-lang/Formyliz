@@ -3,128 +3,113 @@
 <head>
 <meta charset="UTF-8">
 <title>Lizzet ❤️</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-html,body{
-  margin:0;padding:0;width:100%;height:100%;
+body {
+  margin:0;
   overflow:hidden;
-  background:radial-gradient(circle at top,#0b1a3a,#02050f 80%);
-  font-family:Arial;
+  background:radial-gradient(circle at top, #0b1a33, #02010a);
+  font-family: 'Segoe UI', sans-serif;
 }
-
-/* Tombol */
-#start{
-  position:absolute;
-  top:45%;left:50%;
+#start {
+  position:fixed;
+  top:50%;
+  left:50%;
   transform:translate(-50%,-50%);
-  background:#ff6fa5;
+  background:#ff5b9d;
   color:white;
-  padding:15px 35px;
-  border-radius:40px;
+  padding:14px 30px;
+  border-radius:30px;
   font-size:20px;
   cursor:pointer;
-  box-shadow:0 0 20px pink;
   z-index:10;
 }
-
-/* Teks */
-#text{
-  position:absolute;
-  top:15%;
+#text {
+  position:fixed;
+  top:25%;
   width:100%;
   text-align:center;
-  font-size:32px;
   color:white;
-  text-shadow:0 0 20px pink;
+  font-size:36px;
   opacity:0;
-  animation:fade 3s ease forwards;
-  animation-delay:10s;
+  transition:2s;
+  text-shadow:0 0 15px pink;
 }
-@keyframes fade{
-  to{opacity:1;}
-}
-
-/* Love terbang */
-.heart{
+.heart {
   position:absolute;
-  bottom:-40px;
-  font-size:22px;
-  animation:float 8s linear forwards;
+  color:#ff6fa5;
+  animation:float 10s linear infinite;
 }
-@keyframes float{
-  to{transform:translateY(-120vh);opacity:0}
+@keyframes float {
+  from { transform:translateY(100vh); opacity:1;}
+  to { transform:translateY(-10vh); opacity:0;}
 }
-
-/* Tulip */
-.tulip{
+.tulip {
   position:absolute;
   bottom:-200px;
-  animation:rise 2s ease forwards;
+  width:50px;
+  height:200px;
+  animation:rise 2s forwards;
 }
-@keyframes rise{
-  to{bottom:120px;}
+.stem {
+  width:6px;
+  height:120px;
+  background:#2ecc71;
+  margin:0 auto;
+  border-radius:10px;
+  transform:rotate(-5deg);
 }
-
-/* Kelopak mekar */
-.petal{
-  transform-origin:bottom center;
-  animation:bloom 3s ease forwards;
-  animation-delay:2s;
+.flower {
+  width:50px;
+  height:50px;
+  background:pink;
+  border-radius:50% 50% 40% 40%;
+  transform:scaleY(0.3);
+  animation:bloom 2s forwards 2s;
 }
-@keyframes bloom{
-  from{transform:scaleY(0.3);}
-  to{transform:scaleY(1) rotate(10deg);}
+@keyframes rise {
+  to { bottom:0; }
+}
+@keyframes bloom {
+  to { transform:scaleY(1); }
 }
 </style>
 </head>
-
 <body>
 
 <div id="start" onclick="startLove()">❤️ Tekan Love</div>
 <div id="text">Lizzet ❤️<br>I love you!</div>
-
-<audio id="music" loop>
-  <source src="Music.mp3" type="audio/mpeg">
-</audio>
-
-<div id="garden"></div>
+<audio id="music" src="Music.mp3" loop></audio>
 
 <script>
-function createTulip(x,delay){
-  const t=document.createElement("div");
-  t.className="tulip";
-  t.style.left=x+"%";
-  t.style.animationDelay=delay+"s";
-  t.innerHTML=`
-  <svg width="80" height="200" viewBox="0 0 80 200">
-    <path d="M40 80 C35 120 30 150 40 180" stroke="#2ecc71" stroke-width="4" fill="none"/>
-    <ellipse class="petal" cx="28" cy="55" rx="12" ry="30" fill="#ffb6d5"/>
-    <ellipse class="petal" cx="40" cy="50" rx="16" ry="35" fill="#ffd1e8"/>
-    <ellipse class="petal" cx="52" cy="55" rx="12" ry="30" fill="#ffb6d5"/>
-  </svg>`;
-  document.getElementById("garden").appendChild(t);
-}
-
 function startLove(){
   document.getElementById("music").play();
   document.getElementById("start").style.display="none";
+  document.getElementById("text").style.opacity=1;
 
-  // posisi setengah lingkaran
-  let positions=[20,30,40,47,53,60,70,80];
-  positions.forEach((p,i)=>{
-    createTulip(p,i*0.8);
-  });
-
-  // love terbang
+  // hearts
   setInterval(()=>{
-    const h=document.createElement("div");
+    let h=document.createElement("div");
     h.className="heart";
-    h.innerHTML="💗";
+    h.innerHTML="❤️";
     h.style.left=Math.random()*100+"vw";
-    h.style.animationDuration=(5+Math.random()*5)+"s";
+    h.style.fontSize=(20+Math.random()*20)+"px";
+    h.style.animationDuration=(6+Math.random()*6)+"s";
     document.body.appendChild(h);
     setTimeout(()=>h.remove(),10000);
   },300);
+
+  // tulips
+  let center=window.innerWidth/2;
+  for(let i=0;i<8;i++){
+    setTimeout(()=>{
+      let t=document.createElement("div");
+      t.className="tulip";
+      let offset=(i-3.5)*60;
+      t.style.left=(center+offset)+"px";
+      t.innerHTML=`<div class="flower"></div><div class="stem"></div>`;
+      document.body.appendChild(t);
+    }, i*700);
+  }
 }
 </script>
 
