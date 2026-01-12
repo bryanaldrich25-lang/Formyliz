@@ -13,10 +13,10 @@ html,body{
   height:100%;
   overflow:hidden;
   font-family:Arial;
-  background:radial-gradient(circle at top, #0b1a3a, #02050f 80%);
+  background:radial-gradient(circle at top,#0b1a3a,#02050f 80%);
 }
 
-/* bintang */
+/* Bintang */
 body::before{
   content:"";
   position:fixed;
@@ -31,10 +31,7 @@ body::before{
   pointer-events:none;
 }
 
-@keyframes twinkle{
-  from{opacity:0.4;}
-  to{opacity:1;}
-}
+@keyframes twinkle{from{opacity:.4}to{opacity:1}}
 
 #text{
   position:absolute;
@@ -68,19 +65,22 @@ body::before{
   font-size:24px;
   animation:float 8s linear forwards;
 }
-
-@keyframes float{
-  to{ transform:translateY(-120vh); opacity:0; }
-}
+@keyframes float{to{transform:translateY(-120vh);opacity:0}}
 
 .sway{
   animation:sway 4s ease-in-out infinite alternate;
   transform-origin:bottom center;
 }
+@keyframes sway{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
 
-@keyframes sway{
-  from{ transform:rotate(-3deg); }
-  to{ transform:rotate(3deg); }
+.petal{
+  transform-origin:bottom center;
+  animation:bloom 6s ease-in-out infinite;
+}
+@keyframes bloom{
+  0%{transform:scaleY(.3)}
+  40%{transform:scaleY(1) rotate(12deg)}
+  100%{transform:scaleY(1) rotate(12deg)}
 }
 </style>
 </head>
@@ -90,27 +90,50 @@ body::before{
 <div id="text">Lizzet ❤️<br>I love you!</div>
 <div id="start" onclick="startLove()">❤️ Tekan Love</div>
 
-<!-- 8 Tulip -->
-<svg width="100%" height="100%" viewBox="0 0 400 800" style="position:fixed; bottom:0;">
-  <defs>
-    <g id="tulip">
-      <rect x="-3" y="40" width="6" height="120" fill="#2ecc71"/>
-      <ellipse cx="-20" cy="90" rx="20" ry="10" fill="#2ecc71"/>
-      <ellipse cx="20" cy="90" rx="20" ry="10" fill="#2ecc71"/>
-      <circle cx="0" cy="0" r="35" fill="#ff9acb"/>
-      <circle cx="0" cy="0" r="14" fill="#fff3a0"/>
-    </g>
-  </defs>
-
+<!-- Tulip mekar dari kanan & kiri ke tengah -->
+<svg width="100%" height="100%" viewBox="0 0 400 800"
+     style="position:fixed; bottom:0; left:0; z-index:1;">
   <g>
-    <g class="sway" transform="translate(40,600)"><use href="#tulip"/></g>
-    <g class="sway" transform="translate(90,610)"><use href="#tulip"/></g>
-    <g class="sway" transform="translate(140,595)"><use href="#tulip"/></g>
-    <g class="sway" transform="translate(190,610)"><use href="#tulip"/></g>
-    <g class="sway" transform="translate(240,600)"><use href="#tulip"/></g>
-    <g class="sway" transform="translate(290,615)"><use href="#tulip"/></g>
-    <g class="sway" transform="translate(340,595)"><use href="#tulip"/></g>
-    <g class="sway" transform="translate(390,610)"><use href="#tulip"/></g>
+
+    <!-- Kiri & Kanan paling luar -->
+    <g class="sway" style="animation-delay:0s" transform="translate(20,650)">
+      <ellipse class="petal" cx="0" cy="0" rx="14" ry="30" fill="#ff9acb"/>
+      <rect x="-2" y="25" width="4" height="100" fill="#2ecc71"/>
+    </g>
+    <g class="sway" style="animation-delay:0s" transform="translate(380,650)">
+      <ellipse class="petal" cx="0" cy="0" rx="14" ry="30" fill="#ff9acb"/>
+      <rect x="-2" y="25" width="4" height="100" fill="#2ecc71"/>
+    </g>
+
+    <!-- Mendekat ke tengah -->
+    <g class="sway" style="animation-delay:1.5s" transform="translate(80,650)">
+      <ellipse class="petal" cx="0" cy="0" rx="14" ry="30" fill="#ff9acb"/>
+      <rect x="-2" y="25" width="4" height="100" fill="#2ecc71"/>
+    </g>
+    <g class="sway" style="animation-delay:1.5s" transform="translate(320,650)">
+      <ellipse class="petal" cx="0" cy="0" rx="14" ry="30" fill="#ff9acb"/>
+      <rect x="-2" y="25" width="4" height="100" fill="#2ecc71"/>
+    </g>
+
+    <g class="sway" style="animation-delay:3s" transform="translate(140,650)">
+      <ellipse class="petal" cx="0" cy="0" rx="14" ry="30" fill="#ff9acb"/>
+      <rect x="-2" y="25" width="4" height="100" fill="#2ecc71"/>
+    </g>
+    <g class="sway" style="animation-delay:3s" transform="translate(260,650)">
+      <ellipse class="petal" cx="0" cy="0" rx="14" ry="30" fill="#ff9acb"/>
+      <rect x="-2" y="25" width="4" height="100" fill="#2ecc71"/>
+    </g>
+
+    <!-- Tengah (mekar terakhir) -->
+    <g class="sway" style="animation-delay:4.5s" transform="translate(190,650)">
+      <ellipse class="petal" cx="0" cy="0" rx="16" ry="34" fill="#ff9acb"/>
+      <rect x="-2" y="25" width="4" height="100" fill="#2ecc71"/>
+    </g>
+    <g class="sway" style="animation-delay:4.5s" transform="translate(210,650)">
+      <ellipse class="petal" cx="0" cy="0" rx="16" ry="34" fill="#ff9acb"/>
+      <rect x="-2" y="25" width="4" height="100" fill="#2ecc71"/>
+    </g>
+
   </g>
 </svg>
 
