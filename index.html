@@ -4,61 +4,72 @@
 <meta charset="UTF-8">
 <title>Lizzet ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 html,body{
-  margin:0; padding:0; width:100%; height:100%;
-  overflow:hidden; font-family:Arial;
+  margin:0; padding:0;
+  width:100%; height:100%;
+  overflow:hidden;
   background:radial-gradient(circle at top,#0b1a3a,#02050f 80%);
-}
-
-/* Teks (muncul belakangan) */
-#text{
-  position:absolute; top:18%; width:100%;
-  text-align:center; font-size:32px;
-  color:white; text-shadow:0 0 20px pink;
-  display:none; z-index:5;
+  font-family:Arial;
 }
 
 /* Tombol */
 #start{
-  position:absolute; top:45%; left:50%;
-  transform:translateX(-50%);
-  background:#ff4d8d; color:white;
-  padding:14px 30px; border-radius:30px;
-  font-size:20px; cursor:pointer;
-  z-index:6; box-shadow:0 0 20px #ff4d8d;
+  position:absolute;
+  top:45%; left:50%;
+  transform:translate(-50%,-50%);
+  background:#ff4d8d;
+  color:white;
+  padding:14px 30px;
+  border-radius:30px;
+  font-size:20px;
+  cursor:pointer;
+  z-index:10;
+  box-shadow:0 0 20px #ff4d8d;
+}
+
+/* Teks */
+#text{
+  position:absolute;
+  top:15%;
+  width:100%;
+  text-align:center;
+  font-size:32px;
+  color:white;
+  text-shadow:0 0 20px pink;
+  display:none;
+  z-index:9;
 }
 
 /* Hati */
 .heart{
-  position:absolute; bottom:-40px; font-size:24px;
+  position:absolute;
+  bottom:-40px;
+  font-size:22px;
   animation:float 8s linear forwards;
 }
-@keyframes float{to{transform:translateY(-120vh);opacity:0}}
-
-/* Tulip naik */
-.tulip{
-  transform:translateY(220px);
-  opacity:0;
+@keyframes float{
+  to{transform:translateY(-120vh);opacity:0}
 }
-.tulip.rise{
-  animation: rise 1.5s ease-out forwards;
+
+/* Tulip */
+.tulip{
+  position:absolute;
+  bottom:-200px;
+  animation:rise 2s ease-out forwards;
 }
 @keyframes rise{
-  to{transform:translateY(0); opacity:1;}
+  to{bottom:120px;}
 }
 
-/* Mekar */
 .petal{
   transform-origin:bottom center;
-}
-.bloom .petal{
-  animation:bloom 2.5s ease-in-out forwards;
+  animation:bloom 3s ease-in-out forwards;
+  animation-delay:2s;
 }
 @keyframes bloom{
   from{transform:scaleY(0.3);}
-  to{transform:scaleY(1) rotate(12deg);}
+  to{transform:scaleY(1) rotate(10deg);}
 }
 </style>
 </head>
@@ -68,60 +79,41 @@ html,body{
 <div id="text">Lizzet ❤️<br>I love you!</div>
 <div id="start" onclick="startLove()">❤️ Tekan Love</div>
 
-<!-- 8 Tulip -->
-<svg id="tulipGroup" width="100%" height="100%" viewBox="0 0 400 800"
-     style="position:fixed; bottom:0; left:0; display:none;">
-
-  <defs>
-    <g id="oneTulip">
-      <rect x="-3" y="40" width="6" height="120" fill="#2ecc71"/>
-      <ellipse class="petal" cx="-15" cy="0" rx="15" ry="30" fill="#ff8fbf"/>
-      <ellipse class="petal" cx="0" cy="-5" rx="18" ry="35" fill="#ff9acb"/>
-      <ellipse class="petal" cx="15" cy="0" rx="15" ry="30" fill="#ff8fbf"/>
-    </g>
-  </defs>
-
-  <g>
-    <g class="tulip" transform="translate(30,650)"><use href="#oneTulip"/></g>
-    <g class="tulip" transform="translate(80,650)"><use href="#oneTulip"/></g>
-    <g class="tulip" transform="translate(130,650)"><use href="#oneTulip"/></g>
-    <g class="tulip" transform="translate(180,650)"><use href="#oneTulip"/></g>
-    <g class="tulip" transform="translate(230,650)"><use href="#oneTulip"/></g>
-    <g class="tulip" transform="translate(280,650)"><use href="#oneTulip"/></g>
-    <g class="tulip" transform="translate(330,650)"><use href="#oneTulip"/></g>
-    <g class="tulip" transform="translate(380,650)"><use href="#oneTulip"/></g>
-  </g>
-</svg>
-
 <audio id="music" loop>
   <source src="Music.mp3" type="audio/mpeg">
 </audio>
 
+<div id="garden"></div>
+
 <script>
+function createTulip(x,delay){
+  const t=document.createElement("div");
+  t.className="tulip";
+  t.style.left=x+"%";
+  t.style.animationDelay=delay+"s";
+  t.innerHTML=`
+  <svg width="60" height="160" viewBox="0 0 60 160">
+    <rect x="28" y="60" width="4" height="80" fill="#2ecc71"/>
+    <ellipse class="petal" cx="20" cy="40" rx="12" ry="28" fill="#ff8fbf"/>
+    <ellipse class="petal" cx="30" cy="35" rx="15" ry="35" fill="#ff9acb"/>
+    <ellipse class="petal" cx="40" cy="40" rx="12" ry="28" fill="#ff8fbf"/>
+  </svg>`;
+  document.getElementById("garden").appendChild(t);
+}
+
 function startLove(){
-  const music = document.getElementById("music");
-  const start = document.getElementById("start");
-  const group = document.getElementById("tulipGroup");
-  const text  = document.getElementById("text");
-  const tulips = document.querySelectorAll(".tulip");
+  document.getElementById("music").play();
+  document.getElementById("start").style.display="none";
 
-  music.play();
-  start.style.display="none";
-  group.style.display="block";
-
-  // Naik satu per satu
-  tulips.forEach((t, i)=>{
-    setTimeout(()=>{
-      t.classList.add("rise");
-      // Setelah naik, mekar
-      setTimeout(()=> t.classList.add("bloom"), 1500);
-    }, i * 500); // jeda antar tulip
+  let positions=[15,25,35,45,55,65,75,85];
+  positions.forEach((p,i)=>{
+    createTulip(p,i*0.6);
   });
 
-  // Teks muncul setelah semua mekar
-  setTimeout(()=>{ text.style.display="block"; }, 1500 + tulips.length*500 + 800);
+  setTimeout(()=>{
+    document.getElementById("text").style.display="block";
+  },5000);
 
-  // Hati beterbangan
   setInterval(()=>{
     const h=document.createElement("div");
     h.className="heart";
