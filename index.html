@@ -1,68 +1,81 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lizzet ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-body,html{
-  margin:0; padding:0; height:100%; overflow:hidden;
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
   font-family:Arial, sans-serif;
 }
+
 iframe{
   position:fixed;
   inset:0;
-  border:none;
   width:100%;
   height:100%;
-  z-index:1;
+  border:none;
 }
+
 .overlay{
   position:fixed;
   inset:0;
   pointer-events:none;
-  z-index:2;
 }
+
 #text{
-  position:absolute;
-  top:15%;
+  position:fixed;
+  top:30%;
   width:100%;
   text-align:center;
+  font-size:32px;
   color:white;
-  font-size:28px;
-  text-shadow:0 0 15px pink;
+  text-shadow:0 0 10px pink;
+  z-index:2;
 }
-.heart{
-  position:absolute;
-  color:red;
-  font-size:22px;
-  animation:float 10s linear infinite;
-}
-@keyframes float{
-  from{transform:translateY(100vh);opacity:1}
-  to{transform:translateY(-10vh);opacity:0}
-}
+
 #start{
   position:fixed;
-  top:50%; left:50%;
+  top:50%;
+  left:50%;
   transform:translate(-50%,-50%);
-  background:#ff4d88;
+  background:#ff4d8d;
   color:white;
   padding:14px 30px;
   border-radius:30px;
   font-size:20px;
-  z-index:3;
   cursor:pointer;
+  z-index:3;
+}
+
+.heart{
+  position:fixed;
+  bottom:-30px;
+  font-size:24px;
+  animation:float 8s linear forwards;
+}
+
+@keyframes float{
+  to{
+    transform:translateY(-110vh);
+    opacity:0;
+  }
 }
 </style>
 </head>
+
 <body>
 
-<!-- Bunga asli kamu -->
+<!-- Tulip animasi -->
 <iframe src="flower.html"></iframe>
 
-<!-- Overlay -->
-<div class="overlay">
+<div class="overlay" id="overlay">
   <div id="text">Lizzet ❤️<br>I love you!</div>
 </div>
 
@@ -76,15 +89,16 @@ iframe{
 function startLove(){
   document.getElementById("music").play();
   document.getElementById("start").style.display="none";
+
   setInterval(()=>{
     const h=document.createElement("div");
     h.className="heart";
     h.innerHTML="❤️";
     h.style.left=Math.random()*100+"vw";
-    h.style.animationDuration=(6+Math.random()*6)+"s";
-    document.querySelector(".overlay").appendChild(h);
-    setTimeout(()=>h.remove(),12000);
-  },500);
+    h.style.animationDuration=(5+Math.random()*5)+"s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),10000);
+  },300);
 }
 </script>
 
